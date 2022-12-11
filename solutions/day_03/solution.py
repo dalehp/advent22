@@ -1,4 +1,4 @@
-from typing import TextIO
+from more_itertools import chunked
 
 FILE = "solutions/day_03/input.txt"
 TEST_FILE = "solutions/day_03/test_input.txt"
@@ -30,5 +30,20 @@ def solve_part_a():
     print(sum_priorities)
 
 
+def solve_part_b():
+    with open(FILE) as f:
+        rucksacks = [set(line.rstrip()) for line in f]
+
+    elves = chunked(rucksacks, 3)
+
+    sum_priorities = 0
+    for elf in elves:
+        [common_item] = elf[0] & elf[1] & elf[2]
+        sum_priorities += priority(common_item)
+
+    print(sum_priorities)
+
+
 def run():
     solve_part_a()
+    solve_part_b()
